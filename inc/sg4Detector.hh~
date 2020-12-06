@@ -1,0 +1,109 @@
+// sg4Detector.hh - 
+// YushouSong, 宋玉收
+// email : songyushou80@163.com
+// Created On      : Wed Apr 27 09:24:02 2016
+// Last Modified On: Wed May 11 15:46:29 2016
+// Update Count    : 33
+// 
+
+#ifndef sg4Detector_hh
+#define sg4Detector_hh
+
+#include "sg4SD.hh"//
+#include "ysongMsg.hh"//填卡式读取数据
+#include "sg4EMFieldBuilder.hh"//
+#include "sg4EMField.hh"//
+#include "sg4KitMatOptical.hh"
+
+#include "G4TransportationManager.hh"
+#include "G4PropagatorInField.hh"
+#include "G4VUserDetectorConstruction.hh"
+#include "globals.hh"
+#include "G4SDManager.hh"
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+// class description:
+//
+//  This is the abstract base class of the user's mandatory initialization class
+// for detector setup. It has only one pure virtual method Construct() which is
+// invoked by G4RunManager when it's Initialize() method is invoked.
+//  The Construct() method must return the G4VPhysicalVolume pointer which represents
+// the world volume.
+//
+class G4VPhysicalVolume;
+class G4LogicalVolume;
+class G4VisAttributes;
+
+class sg4Detector: public G4VUserDetectorConstruction
+{
+public:
+  sg4Detector(G4String fn="input.txt");
+  virtual ~sg4Detector();
+
+public:
+  virtual G4VPhysicalVolume* Construct();
+  virtual void ConstructSDandField();
+  //virtual void ConstructSDandField();
+  //This method is used in multi-threaded applications to build
+  //per-worker non-shared objects: SensitiveDetectors and Field managers
+
+private:
+  void DefineMaterial();
+  void DefineVolume();
+  void DefineOpticalMPT();//
+  void DefineSurf();//
+
+  void DefineOneSD(G4LogicalVolume* lv);//
+ 
+private: 
+  G4String fnInput;
+  G4String OpticalInputFile;
+  sg4KitMatOptical *KitOpt;
+
+  G4bool checkOverlaps; // Option to switch on/off checking of volumes overlaps
+  G4LogicalVolume* logicWorld;
+  G4VPhysicalVolume* physiWorld;
+  G4LogicalVolume* logicBar;
+  G4VPhysicalVolume* physiBar;
+  G4LogicalVolume* logicmcp;
+  G4VPhysicalVolume* physiPmtR;
+  G4VPhysicalVolume* physiPmtL;
+  G4VPhysicalVolume* physimcp;
+  
+  G4LogicalVolume* logicDipole1;
+  G4VPhysicalVolume* physiDipole1;
+  G4LogicalVolume* logicChannel;
+  G4LogicalVolume* logicread;
+  G4VPhysicalVolume* physiread;
+  // G4LogicalVolume* logicBox;
+  // G4VPhysicalVolume* physiBox;
+
+  //----------Materials-----------
+  G4Material* Air;
+  G4Material* vacuum;
+  G4Material* BC408; 
+  G4Material* Ce2O3;
+  G4Material* LiO2;
+  G4Material* Al2O3;
+  G4Material* SiO2;
+  G4Material* CsI;
+  G4Material* GS20;
+  G4Material* GSfs;
+  G4Material* GSna;//glass rod not scint
+  G4Material* B2O3;
+  G4Material* Gd2O3;
+  G4Material* PbO;
+  G4Material* BiO;
+  G4Material* Na2O;
+  G4Material* Cs2O;
+  G4Material* BaO;
+  G4Material* TiO2;
+  G4Material* MOMCP;
+  
+
+ 
+
+};
+
+#endif 

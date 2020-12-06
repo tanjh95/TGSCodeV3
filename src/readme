@@ -1,0 +1,8 @@
+sg4Detecor.cc
+临时使用测试方形栅格的p2//移到别的文件夹了
+
+sg4Detector
+多孔六边形MCP(正常使用的)
+
+sg4Detector_layer
+channel外面套了一层很薄的layer

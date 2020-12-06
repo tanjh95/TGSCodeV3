@@ -1,0 +1,24 @@
+{
+    "files.associations": {
+        "PosPro.C": "cpp",
+        "TestGd.C": "cpp",
+        "Btest.C": "cpp",
+        "BGdtest.C": "cpp",
+        "ProcessRoot1.C": "cpp",
+        "ProcessRoot2.C": "cpp",
+        "NG6.C": "cpp",
+        "style_parser": "cpp",
+        "string": "cpp",
+        "NG6_2.C": "cpp",
+        "sstream": "cpp",
+        "P1Calcu.C": "cpp",
+        "EkDep.C": "cpp",
+        "EffTh.C": "cpp",
+        "NG5.C": "cpp",
+        "range2.C": "cpp",
+        "ostream": "cpp",
+        "sprintf": "cpp",
+        "EAverage.C": "cpp",
+        "iostream": "cpp"
+    }
+}

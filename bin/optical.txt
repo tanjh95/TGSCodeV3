@@ -1,0 +1,191 @@
+## nimage.in - setting parameters for local parameters, read during detector construction
+## YushouSong, 宋玉收
+## email : songyushou80@163.com
+## Created On      : Tue Sep 24 11:38:18 2013
+## Last Modified On: Wed May 11 16:00:30 2016
+## Update Count    : 428
+## 
+
+##geometry=========================================
+##unit: mm
+ActiveRodRadius 0.0005 
+ActiveRodLength 0.1
+#InactiveRodLength 0.5 ##not valid now
+
+#optical===========================================
+#The following data is used during detector construction
+##--------------------------------------------------------
+##GS20 glass
+##scintillation spectrum----------------------------------
+GS20UnitOpticalSpectrum 2 ##1, eV; 2, wavelength (nm);
+GS20PhotonRange 40 508.12903	496.51613	483.09677	472.25806	463.74194	455.22581	446.45161	437.16129	429.41936	418.58065	409.80645	405.16129	399.74194	395.87097	391.22581	389.67742	386.58065	381.93548	378.06452	373.93548	370.06452	367.74194	364.64516	363.09677	360	358.45161	354.58065	353.03226	350.70968	349.93548	346.83871	345.29032	342.96774	342.19355	339.87097	338.32258	337.29032	334.96774	333.41936	331.09677
+GS20FastComponent     40 3.36449	5.64252	9.28738	13.91939	18.70327	24.01869	30.16939	38.21846	47.40654	61.1507	72.16121	79.98248	85.67757	90.76519	95.54907	98.51051	100.33294	101.01636	99.87734	97.5993	93.49883	87.95561	82.94393	79.75467	75.35047	69.19977	62.74533	56.06308	51.27921	46.72313	41.17991	36.39603	31.30841	27.20794	23.10748	18.47547	16.19743	12.09696	7.69276	4.0479
+GS20SlowComponent    1 0.025
+
+GS20ScintillationYield 4500  (photon/MeV, works when scintByParticletype=false) 
+GS20YieldRatio 1.
+GS20ResolutionScale 0.0
+GS20FastTimeConstant 18.    (unit:ns)
+GS20SlowTimeConstant 58.    (unit:ns)
+
+GS20RIndex 	     1 1.55
+GS20AbsLength 	     1 2.0e3    (unit: mm)
+
+##light yield option-------------------------------------
+GS20OptionScintYield 1 
+##scintillationyield--------------------------------------
+#GS20 scintillation yield for energy deposit by particle type
+#(unit: MeV, photon)
+GS20EnergyDeposit		2 0 10.0
+GS20ElectronScintillationYield 	2 0 45000
+GS20ProtonScintillationYield 	2 0 30000
+GS20DeuteronScintillationYield 	2 0 20000
+GS20TritonScintillationYield 	2 0 14220
+GS20AlphaScintillationYield 	2 0 10350
+GS20IonScintillationYield 	2 0 0
+
+#--------------------------------------------------------
+#glass rod but not scint 
+GSnaUnitOpticalSpectrum 2 ##1, eV; 2, wavelength (nm);
+GSnaPhotonRange 40 508.12903	496.51613	483.09677	472.25806	463.74194	455.22581	446.45161	437.16129	429.41936	418.58065	409.80645	405.16129	399.74194	395.87097	391.22581	389.67742	386.58065	381.93548	378.06452	373.93548	370.06452	367.74194	364.64516	363.09677	360	358.45161	354.58065	353.03226	350.70968	349.93548	346.83871	345.29032	342.96774	342.19355	339.87097	338.32258	337.29032	334.96774	333.41936	331.09677
+GSnaRIndex 1 1.55
+GSnaAbsLength 1 2.0e3  (unit: mm)
+
+#--------------------------------------------------------
+#glass type fused silica
+GSfsUnitOpticalSpectrum 2 ##1, eV; 2, wavelength (nm);
+GSfsPhotonRange 40 508.12903	496.51613	483.09677	472.25806	463.74194	455.22581	446.45161	437.16129	429.41936	418.58065	409.80645	405.16129	399.74194	395.87097	391.22581	389.67742	386.58065	381.93548	378.06452	373.93548	370.06452	367.74194	364.64516	363.09677	360	358.45161	354.58065	353.03226	350.70968	349.93548	346.83871	345.29032	342.96774	342.19355	339.87097	338.32258	337.29032	334.96774	333.41936	331.09677
+
+GSfsRIndex 40 1.46189	1.46252	1.46331	1.464	1.46457	1.46518	1.46584	1.46658	1.46724	1.46823	1.46909	1.46956	1.47014	1.47057	1.47111	1.47129	1.47166	1.47224	1.47274	1.47328	1.47382	1.47414	1.47459	1.47482	1.47529	1.47553	1.47614	1.47639	1.47677	1.4769	1.47743	1.4777	1.47811	1.47825	1.47868	1.47896	1.47916	1.4796	1.47991	1.48037
+
+GSfsAbsLength 1 1.0e5   (unit: mm)
+
+
+##optical surface====================
+rod2mirrPhotonSpectrum	2 1.0e-3	6   (unit: eV) 
+rod2mirrReflectivity	1 0.9
+rod2mirrEfficiency   	1 1.
+	
+scint2mirrPhotonSpectrum	2 1.0e-3	6   (unit: eV) 
+scint2mirrReflectivity	1 0.9
+scint2mirrEfficiency   	1 1.
+
+tube2mirrPhotonSpectrum	2 1.0e-3	6   (unit: eV) 
+tube2mirrReflectivity	1 0.9
+tube2mirrEfficiency   	1 1.	
+
+void2mirrPhotonSpectrum	2 1.0e-3	6   (unit: eV) 
+void2mirrReflectivity	1 0.9
+void2mirrEfficiency   	1 1.
+
+bdl2mirrPhotonSpectrum		2 1.0e-3	6   (unit: eV) 
+bdl2mirrReflectivity		1 0.9
+bdl2mirrEfficiency		1 1.
+
+LightEndPhotonSpectrum 2 1.0e-3	6   (unit: eV)
+LightEndReflectivity   1 0.0
+LightEndEfficiency     1 1.
+
+
+
+rodwpPhotonSpectrum  2 1.0e-3	6   (unit: eV)
+rodwpReflectivity    1 1
+rodwpEfficiency      1 0
+rodwpFacetSigmaAlpha 1 0
+rodwpRIndex	     1 1
+rodwpSpecularSpike   1 0.3
+rodwpSpecularLobe    1 0.3 
+rodwpBackScatter     1 0.3
+
+
+#PMT=================================
+#QuantumEff_PMT is used to reduce the light output now(081112).
+
+NOpDetail_PMT 3000.
+QuantumEff_PMT 0.2
+FactorCollection_PMT 0.78
+
+RiseTime_PMT 1.6
+Gain_PMT 3.0e7
+TransitTime_PMT 28.0
+NRiseTimeCut_PMT 3.
+
+FactorQ2V_PMT 1.0
+CCouple_PMT 2.0e-10
+
+SampleBin_PMT 0.02
+TimeRangeMax_PMT 150.
+ 
+ThresholdVCutT_PMT -0.01
+ConstProportion_PMT 0.12
+TimeIntervalQ_PMT 100.0
+
+##========================================================
+##========================================================
+#--------------------------------------------------------
+#BC408
+##photon spectrum unit:eV
+BC408UnitOpticalSpectrum 1 ##1, eV; 2, wavelength (nm);
+BC408PhotonRange 20 2.51505 2.5892   2.65011 2.68908 2.73458 2.77956 2.8079 2.82246 2.83322 2.85169 2.88377 2.91619  2.94779 2.97373 2.99409 3.01228 3.03523  3.05854 3.09075 3.13506
+BC408FastComponent 20 9.22865  17.35537  27.46556  37.82369  47.21763 	57.02479  68.5124   77.60331  85.73003  94.13223  99.31129  95.53719  85.59229  75.3719   65.427  54.07713  43.27824  33.33333  24.10468  14.71074
+BC408SlowComponent 20 9.22865   17.35537  27.46556  37.82369  47.21763 	57.02479  68.5124   77.60331  85.73003  94.13223  99.31129  95.53719  85.59229  75.3719   65.427  54.07713  43.27824  33.33333  24.10468  14.71074	 
+##To make "ScientillationByParticle" array values relative ones, "ScintillationYield" in the following must be given. "ScintillationYield" gives  <number of photon>/MeVee. In G4Scintillation, "ScintillationYield" is used only when "fScintillationByParticleType"=false. 
+BC408ScintillationYield	2    #10574
+BC408YieldRatio	0.79
+BC408ResolutionScale 0.0
+BC408FastTimeConstant 2.1
+BC408SlowTimeConstant 14.2
+
+BC408RIndex	1	1.58
+BC408AbsLength	1	3800	(unit:mm)
+
+##light yield option-------------------------------------
+##this is for material property, which should be adapt to scintillation physics
+BC408OptionScintYield 1
+
+##scintillationyield--------------------------------------
+##scintillation yield for energy deposit by particle type
+##"EnergyDeposit" gives absolute energy deposition (unit: MeV)
+BC408EnergyDeposit   20         0          5         10         15         20         25         30         35         40         45         50         55         60         65         70         75         80         85         90         95 
+BC408ElectronScintillationYield 20       0    0.03705     0.0741    0.11115     0.1482    0.18525     0.2223    0.25935     0.2964    0.33345     0.3705    0.40755     0.4446    0.48165     0.5187    0.55575     0.5928    0.62985     0.6669    0.70395 
+BC408ProtonScintillationYield   20    0  0.0232233   0.047543  0.0729043  0.0992521   0.126532   0.154688   0.183666    0.21341   0.243867    0.27498   0.306696   0.338958   0.371712   0.404904   0.438477   0.472378   0.506551   0.540941   0.575494 
+BC408DeuteronScintillationYield 20       0  0.0173588  0.0363025  0.0567507  0.0786229   0.101839   0.126318    0.15198   0.178745   0.206532    0.23526    0.26485   0.295221   0.326292   0.357984   0.390215   0.422905   0.455975   0.489343    0.52293 
+BC408TritonScintillationYield   20     0  0.0151739  0.0317803  0.0497561  0.0690384  0.0895642   0.111271   0.134094   0.157973   0.182843   0.208641   0.235305   0.262772   0.290979   0.319862   0.349358   0.379406   0.409941   0.440901   0.472222 
+BC408AlphaScintillationYield   20       0 0.00763345  0.0160132  0.0251254  0.0349565  0.0454927  0.0567202  0.0686255  0.0811946   0.094414    0.10827   0.122749   0.137836   0.153519   0.169784   0.186617   0.204004   0.221931   0.240385   0.259352 
+BC408IonScintillationYield 1 0.0
+
+
+#--------------------------------------------------------
+#silica jacket
+SiO2UnitOpticalSpectrum 2 ##1, eV; 2, wavelength (nm);
+SiO2PhotonRange 40 508.12903	496.51613	483.09677	472.25806	463.74194	455.22581	446.45161	437.16129	429.41936	418.58065	409.80645	405.16129	399.74194	395.87097	391.22581	389.67742	386.58065	381.93548	378.06452	373.93548	370.06452	367.74194	364.64516	363.09677	360	358.45161	354.58065	353.03226	350.70968	349.93548	346.83871	345.29032	342.96774	342.19355	339.87097	338.32258	337.29032	334.96774	333.41936	331.09677
+SiO2RIndex 40 1.54823	1.54896	1.54988	1.55067	1.55133	1.55203	1.55279	1.55365	1.55441	1.55555	1.55654	1.55709	1.55776	1.55826	1.55887	1.55908	1.55951	1.56018	1.56075	1.56138	1.56199	1.56237	1.56289	1.56315	1.56369	1.56396	1.56467	1.56495	1.56539	1.56554	1.56615	1.56646	1.56693	1.56709	1.56758	1.56791	1.56814	1.56865	1.56899	1.56953
+
+SiO2AbsLength 1 1.0e5   (unit: mm)
+
+#--------------------------------------------------------
+#air
+AirUnitOpticalSpectrum 2 ##1, eV; 2, wavelength (nm);
+AirPhotonRange 40 508.12903	496.51613	483.09677	472.25806	463.74194	455.22581	446.45161	437.16129	429.41936	418.58065	409.80645	405.16129	399.74194	395.87097	391.22581	389.67742	386.58065	381.93548	378.06452	373.93548	370.06452	367.74194	364.64516	363.09677	360	358.45161	354.58065	353.03226	350.70968	349.93548	346.83871	345.29032	342.96774	342.19355	339.87097	338.32258	337.29032	334.96774	333.41936	331.09677
+AirRIndex 1 1.00014
+AirAbsLength 1 5.0e5   (unit: mm)
+
+
+#--------------20160430---------------
+pmtr2worldPhotonSpectrum  2 2. 4.
+pmtr2worldReflectivity 1 0.0
+pmtr2worldEfficiency   1 1.
+
+pmtl2worldPhotonSpectrum  2 2. 4.
+pmtl2worldReflectivity 1 0.0
+pmtl2worldEfficiency   1 1.
+
+bar2worldPhotonSpectrum 2 2. 4. (unit: eV)
+bar2worldReflectivity 1 1
+bar2worldEfficiency 1 0
+bar2worldFacetSigmaAlpha 1 0
+bar2worldRIndex 1 1
+bar2worldSpecularSpike 1 0.3 
+bar2worldSpecularLobe  1 0.3
+bar2worldBackScatter 1 0.3
+#--------------20160430---------------

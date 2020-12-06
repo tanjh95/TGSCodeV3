@@ -1,0 +1,12 @@
+
+
+
+/tracking/verbose 0
+
+/MCP/det/setBMatCon 0.10   #只能写B或Gd
+/MCP/det/setGdMatCon 0.008
+/MCP/det/setMCPMaterial MOMCPBGd #只能写B或Gd
+/run/initialize
+/run/beamOn 10000
+
+

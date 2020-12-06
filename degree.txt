@@ -1,0 +1,10 @@
+2*mm	7.12523*degree	200*mm
+4*mm	3.57644*degree	400*mm
+6*mm	2.38601*degree	600*mm
+8*mm	1.78996*degree	800*mm
+10*mm	1.43214*degree	1000*mm
+12*mm	1.19352*degree	1200*mm
+14*mm	1.02306*degree	1400*mm
+16*mm	0.8952*degree	1600*mm
+18*mm	0.795747*degree	1800*mm
+20*mm	0.716181*degree	2000*mm

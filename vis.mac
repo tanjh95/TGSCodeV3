@@ -1,0 +1,14 @@
+/vis/open OGL
+/vis/drawVolume
+/vis/viewer/set/viewpointThetaPhi 70 140
+
+/vis/scene/add/trajectories
+/vis/scene/endOfEventAction accumulate
+
+/vis/modeling/trajectories/create/drawByParticleID test2
+/vis/modeling/trajectories/test2/set neutron cyan
+/vis/modeling/trajectories/test2/default/setDrawStepPts  true
+/vis/modeling/trajectories/test2/default/setStepPtsSize 2
+
+#/run/initialize
+#/run/beamOn 10

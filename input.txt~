@@ -1,0 +1,83 @@
+## input.txt - 
+## YushouSong, 宋玉收
+## email : songyushou80@163.com
+## Created On      : Wed May  4 10:57:48 2016
+## Last Modified On: Tue May 31 15:57:05 2016
+## Update Count    : 37
+## 
+
+##=============environment
+EnableRandSeed 0 #
+NumberOfThreads 2
+
+##=============Physics====================
+
+ParticleRangeCut 0.
+EThreshold2nd -1.0e-5
+TrackingLimitParticle 1 opticalphoton
+
+##optical physics
+EnableOpticalPhysics 1
+OpticalFile optical.txt
+
+##==============EM  Field==================
+##unit:tesla
+MagStrength  1.   
+MinStep 0.001
+StepperType  4
+
+##============primary particle=============
+NumbPrimaryPerEvt 1
+##parimary particle name(opticalphoton or neutron,triton, alpha)
+NamePrimary alpha # neutron #
+##IonZ 2
+##IonA 4
+##IonEstar 0.0
+##IonQ 2
+##'ssopPrimaryGenerator' kinetic energy of neutron(MeV, photon 2.85 eV)
+EkPrimary 1    0.0253e-6 # 1.47    # for thermal neutron
+EkWeight  1    1.  
+
+##primary particle position(mm),z position is given by program
+xInitPrimary 0.0     #-5.0e-4
+yInitPrimary 0.0
+zInitPrimary -2.5
+
+##primary particle position smearing range(mm)   range是全长
+xRangePrimary 0
+yRangePrimary 0
+zRangePrimary 0
+
+##primary direction rotation respect to X/Y/Z axis(unit:degree)
+DirectRotX 0
+DirectRotY 0
+DirectRotZ 0
+
+##primary direction range(unit:degree)
+RangeThetaPri 5
+
+##===========SD output===========
+##following cuts performed in SD 
+EDepByParticleSD 0  ##energy dep for scint
+FilterEdep 0	#unit MeV
+FilterPwith 0 triton alpha  #this option set, "without" option is ignored
+FilterPwithout 0  
+FilterInStep -1      #-1: ignore >3: not record 1~3:diff algorithm 
+FilterOutStep -1     #-1: ignore
+
+##
+FileNameNt test.root
+FileNameFreeIO tmp
+
+##===========tracking===========
+##in tracking action
+FormatNameTrack fmttrk1.in
+FileNameTrack t_-0.04mm_0_0deg_1_1mm_000.root
+
+
+
+##==========Log File=========
+FileNameEventLog writelog
+SecMaxShow 900
+EvtMaxChk 1
+

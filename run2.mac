@@ -1,0 +1,12 @@
+
+/run/initialize
+
+/tracking/verbose 0
+#/run/beamOn 10000
+
+ /MCP/det/setMatCon 0   #只能写B或Gd掺杂浓度
+
+/MCP/det/setMCPMaterial Gd   #只能写B或Gd
+/run/beamOn 10000
+
+

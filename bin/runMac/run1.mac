@@ -1,0 +1,10 @@
+/control/verbose 2
+/run/verbose 1
+/tracking/verbose 0
+#/MCP/det/setBMatCon 0.1   #设置B的浓度，同时Gd浓度变为0.135-value
+#/MCP/det/setGdMatCon 0.002   #设置B的浓度，同时Gd浓度变为0.135-value
+#/MCP/det/setMCPMaterial MOMCPBGd
+/run/initialize
+/run/beamOn 10000
+
+
