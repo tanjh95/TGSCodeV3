@@ -3,12 +3,12 @@
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/../lib
 echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH"
 echo $LD_LIBRARY_PATH
-PRONAME=TGSCodeV3
+PRONAME=TGSCodeV4
 # G4DIR1002=/home/song67/geant4/g4.10.02p1/lib64/Geant4-10.2.1
 # G4DIR1003=/home/song67/geant4/g4.10.03/lib64/Geant4-10.3.0
 #G4DIR1003=/opt/Geant4/geant41004/lib64/Geant4-10.4.3/
-G4DIR1003=/opt/Geant4/geant41005/lib64/Geant4-10.5.0/
-#G4DIR1003=/home/tan/geant41005/g4install/lib64/Geant4-10.5.0/
+#G4DIR1003=/opt/Geant4/geant41005/lib64/Geant4-10.5.0/
+G4DIR1003=/home/tan/geant41005/g4install/lib64/Geant4-10.5.0/
 
 cd ..
 echo "======================================="

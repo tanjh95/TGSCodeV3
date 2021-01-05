@@ -34,14 +34,16 @@ return 0;
 int TGS(){
 char str[50];
 for(int i=-1;i<2;i++){
-sprintf(str,"Em%d_0_-50_1.root",i*50);
+    for(int j=-1;j<2;j++){
+	for(int k=0;k<4;k++){
+sprintf(str,"Em%d_%d_%d_1.root",i,j,k*45);
 cout<<"Processing"<<str<<endl;
 TFile *f=new TFile(str);
 TTree *t1=new TTree("tree","tree disk");
 t1=(TTree*)f->Get("t");
 GetNb(t1);
 f->Close();
-}
+}}}
 
 return 0;
 }

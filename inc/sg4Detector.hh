@@ -42,6 +42,7 @@ G4double xBarrel;
 G4double yBarrel;
 G4double dDet;
 G4double xDet;
+int NbVox;
 G4double Degree;
 G4int NbVoxel;
 G4double abun;
@@ -79,7 +80,6 @@ private:
   G4bool checkOverlaps; // Option to switch on/off checking of volumes overlaps
   G4LogicalVolume* logicWorld;
   G4VPhysicalVolume* physiWorld;
-  G4VPhysicalVolume* physiVoxel;
   G4LogicalVolume* logicBarrel;
   G4VPhysicalVolume* physiBarrel;
   G4LogicalVolume* logicDet;

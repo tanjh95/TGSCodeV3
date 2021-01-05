@@ -21,15 +21,11 @@ cd $tgshome
 sed -i "42c xInitPrimary $1 #changed by sh"  input.txt
 sed -i "43c yInitPrimary $2 #changed by sh"  input.txt
 sed -i "44c zInitPrimary $3 #changed by sh"  input.txt
-g++ -o angleCal angleCal.C
 ./angleCal  $1 $2 $3 ##argc argv读取，换算后输出两个数存入文件angledata.temp
 RotY=($(awk '{print $1}' angledata.temp)) ##第一行旋转角度
 Theta=($(awk '{print $2}' angledata.temp)) ##第二行发散角度
-RotX=($(awk '{print $3}' angledata.temp)) ##第三行旋转角度
-
-#echo "RotY="$RotY "Theta="$Theta  "RotX="$RotX
+#echo "Rot="$RotY "Theta="$Theta 
 echo $Theta ##发散角 
-
 ChangeSourceRot $RotY $Theta $RotX
 }
 
@@ -43,7 +39,11 @@ sed -i "52c DirectRotX $3 #changed by sh" input.txt
 
 ApplyRunTr(){ ## 接收参数:1.横移 2.纵移 3.旋转
 cd $tgshome
-
+sed -i "47c xRangePrimary -3 #changed by sh" input.txt
+#sed -i "57c RangeThetaPri 0 #changed by sh" input.txt
+sed -i "52c DirectRotX  0  #changed by sh" input.txt
+sed -i "53c DirectRotY  0  #changed by sh" input.txt
+sed -i "54c DirectRotZ  0  #changed by sh" input.txt
 . build.sh
 if [ $? != 0 ]
 then
@@ -51,10 +51,8 @@ echo "build error"
 echo "script exit"
 else
 echo "Run Start"
-Num1=`echo "$1" |awk '{printf("%g",$1/16.666667)}'`
-Num2=`echo "$2" |awk '{printf("%g",$1/16.666667)}'`
-./TGS run.mac  && hadd ~/g4data/"Tr"$Num1"_"$Num2"_"$3".root"  test_t*.root # Transmision
-echo "Tr"$Num1"_"$Num2"_"$3".root"
+./TGS run.mac  && hadd ~/g4data/"Tr"$1"_"$2"_"$3".root"  test_t*.root # Transmision
+echo "Tr"$1"_"$2"_"$3".root"
 
 fi
 }
@@ -70,17 +68,14 @@ echo "build error"
 echo "script exit"
 else
 echo "Run Start"
-Num1=`echo "$1" |awk '{printf("%g",$1/16.666667)}'`
-Num2=`echo "$2" |awk '{printf("%g",$1/16.666667)}'`
-./TGS run.mac && hadd ~/g4data/"Em"$Num1"_"$Num2"_"$3"_"$4".root"  test_t*.root
-echo "Em"$Num1"_"$Num2"_"$3"_"$4".root"
+./TGS run.mac && hadd ~/g4data/"Em"$1"_"$2"_"$3"_"$4".root"  test_t*.root
+echo "Em"$1"_"$2"_"$3"_"$4".root"
 
 fi
 }
 
 ###主程序开始
 ###############各体素中心y坐标
-#体素边长
 echo "输入模式 1:transmission 2:emmision"
 read modNb
 case $modNb in
@@ -89,18 +84,13 @@ case $modNb in
  cd  $tgshome
  sed -i "42c xInitPrimary 0  #changed by sh" input.txt
  sed -i "43c yInitPrimary 0 #changed by sh"  input.txt
- sed -i "44c zInitPrimary -212  #changed by sh" input.txt
-sed -i "47c xRangePrimary -3 #changed by sh" input.txt
-sed -i "52c DirectRotX  0  #changed by sh" input.txt
-sed -i "53c DirectRotY  0  #changed by sh" input.txt
-sed -i "54c DirectRotZ  0  #changed by sh" input.txt
-sed -i "57c RangeThetaPri 0  #changed by sh" input.txt
- for loop2 in -16.666667 #0 16.666667 #横移
-  do 
-   for loop in 0 #45 90 135 #旋转
+ sed -i "44c zInitPrimary -100  #changed by sh" input.txt
 
+ for loop2 in 50 #0 -50 #横移
+  do 
+   for loop in  0 #45 90 135 #旋转
    do
-	for loop3 in -16.666667 #0 16.666667 #纵移
+	for loop3 in 50 #0 -50 #纵移
 		do
   ChangePosition $loop2 $loop3
   ChangeRotation $loop
@@ -111,50 +101,50 @@ sed -i "57c RangeThetaPri 0  #changed by sh" input.txt
 ;;
 2)
 ###Emmision
-  for loop2 in 16.666667 0 -16.666667  #横移
+  for loop2 in -50 0  50  #横移
     do 
-    for loop in 0 45 90 135   #旋转
+    for loop in  0 45 90 135   #旋转
       do
-		for loop3 in 16.666667 0 -16.666667 #纵移
+		for loop3 in 0 #-50 0 50 #纵移
 			do
-	Y1=`echo "$loop3" |awk '{printf("%g",-16.666667+$1)}'`
+	Y1=`echo "$loop3" |awk '{printf("%g",-50+$1)}'`
 ##第一层
 	Y2=$loop3    ##第二层
-	Y3=`echo "$loop3" |awk '{printf("%g",16.666667+$1)}'` ##第三层
+	Y3=`echo "$loop3" |awk '{printf("%g",50+$1)}'` ##第三层
 
         ChangePosition  $loop2  $loop3
         ChangeRotation  $loop
 ###source1(1)
-	X1=`echo "$loop $loop2" |awk '{printf("%g",-16.666667*sqrt(2)*sin((45-$1)*3.1415926/180)+$2)}'` #first point
-	Z1=`echo "$loop" |awk '{printf("%g",16.666667*sqrt(2)*cos((45-$1)*3.1415926/180))}'`
+	X1=`echo "$loop $loop2" |awk '{printf("%g",-50*sqrt(2)*sin((45-$1)*3.1415926/180)+$2)}'` #first point
+	Z1=`echo "$loop" |awk '{printf("%g",50*sqrt(2)*cos((45-$1)*3.1415926/180))}'`
 ###source2(N2)
-	X2=`echo "$loop $loop2" |awk '{printf("%g",16.666667*sin(1*$1*3.1415926/180)+$2)}'`
-	Z2=`echo "$loop" |awk '{printf("%g",16.666667*cos(1*$1*3.1415926/180))}'`
+	X2=`echo "$loop $loop2" |awk '{printf("%g",50*sin(1*$1*3.1415926/180)+$2)}'`
+	Z2=`echo "$loop" |awk '{printf("%g",50*cos(1*$1*3.1415926/180))}'`
 ##soruce3
-	X3=`echo "$loop $loop2" |awk '{printf("%g",16.666667*sqrt(2)*cos((45-$1)*3.1415926/180)+$2)}'` #first point
-	Z3=`echo "$loop" |awk '{printf("%g",16.666667*sqrt(2)*cos((45+$1)*3.1415926/180))}'`
+	X3=`echo "$loop $loop2" |awk '{printf("%g",50*sqrt(2)*cos((45-$1)*3.1415926/180)+$2)}'` #first point
+	Z3=`echo "$loop" |awk '{printf("%g",50*sqrt(2)*cos((45+$1)*3.1415926/180))}'`
 ###source1(4)
-	X4=`echo "$loop $loop2" |awk '{printf("%g",-16.666667*cos($1*3.1415926/180)+$2)}'` #first point
-	Z4=`echo "$loop" |awk '{printf("%g",16.666667*sin($1*3.1415926/180))}'`
+	X4=`echo "$loop $loop2" |awk '{printf("%g",-50*cos($1*3.1415926/180)+$2)}'` #first point
+	Z4=`echo "$loop" |awk '{printf("%g",50*sin($1*3.1415926/180))}'`
 ###source1(5)
 	X5=`echo "$loop2" |awk '{printf("%g",$1)}'` #first point
 	Z5=`echo "$loop" |awk '{printf("%g",0)}'`
 ###source1(6)
-	X6=`echo "$loop $loop2" |awk '{printf("%g",16.666667*cos($1*3.1415926/180)+$2)}'` #first point
-	Z6=`echo "$loop" |awk '{printf("%g",-16.666667*sin($1*3.1415926/180))}'`
+	X6=`echo "$loop $loop2" |awk '{printf("%g",50*cos($1*3.1415926/180)+$2)}'` #first point
+	Z6=`echo "$loop" |awk '{printf("%g",-50*sin($1*3.1415926/180))}'`
 ##soruce7
-	X7=`echo "$loop $loop2" |awk '{printf("%g",-16.666667*sqrt(2)*cos((45-$1)*3.1415926/180)+$2)}'` #first point
-	Z7=`echo "$loop" |awk '{printf("%g",-16.666667*sqrt(2)*cos((45+$1)*3.1415926/180))}'`
+	X7=`echo "$loop $loop2" |awk '{printf("%g",-50*sqrt(2)*cos((45-$1)*3.1415926/180)+$2)}'` #first point
+	Z7=`echo "$loop" |awk '{printf("%g",-50*sqrt(2)*cos((45+$1)*3.1415926/180))}'`
 ###source8
-	X8=`echo "$loop $loop2" |awk '{printf("%g",-16.666667*sin(1*$1*3.1415926/180)+$2)}'`
-	Z8=`echo "$loop" |awk '{printf("%g",-16.666667*cos(1*$1*3.1415926/180))}'`
+	X8=`echo "$loop $loop2" |awk '{printf("%g",-50*sin(1*$1*3.1415926/180)+$2)}'`
+	Z8=`echo "$loop" |awk '{printf("%g",-50*cos(1*$1*3.1415926/180))}'`
 ###source9
-	X9=`echo "$loop $loop2" |awk '{printf("%g",16.666667*sqrt(2)*sin((45-$1)*3.1415926/180)+$2)}'` #first point
-	Z9=`echo "$loop" |awk '{printf("%g",-16.666667*sqrt(2)*cos((45-$1)*3.1415926/180))}'`
+	X9=`echo "$loop $loop2" |awk '{printf("%g",50*sqrt(2)*sin((45-$1)*3.1415926/180)+$2)}'` #first point
+	Z9=`echo "$loop" |awk '{printf("%g",-50*sqrt(2)*cos((45-$1)*3.1415926/180))}'`
 
 
-ChangeSourcePos $X2 $Y1 $Z2 ##示例是 体素
-ApplyRunEm  $loop3  $loop2  $loop 2
+ChangeSourcePos $X8 $Y2 $Z8  ##示例是 体素
+#ApplyRunEm  $loop2  $loop  $loop3  17
         done 
 	done
   done
@@ -166,39 +156,39 @@ ApplyRunEm  $loop3  $loop2  $loop 2
 
     for loop in 45 #0  45  90 135  ##旋转角
       do
-	for loop2 in 0  #-16.666667  0 16.666667  ## 横移
+	for loop2 in 0  #-50  0 50  ## 横移
 	 do
-	for loop3 in -16.666667 #0 16.666667  ##纵向移动
+	for loop3 in -50 #0 50  ##纵向移动
 		do
         ChangePosition $loop2 $loop3
         ChangeRotation  $loop
-	Y1=`echo "$loop3" |awk '{printf("%g",-16.666667+$1)}'`
+	Y1=`echo "$loop3" |awk '{printf("%g",-50+$1)}'`
 ##第一层
 	Y2=$loop3    ##第二层
-	Y3=`echo "$loop3" |awk '{printf("%g",16.666667+$1)}'` ##第三层
+	Y3=`echo "$loop3" |awk '{printf("%g",50+$1)}'` ##第三层
 
 ###source1(1)
-	X1=`echo "$loop $loop2" |awk '{printf("%g",-16.666667*sqrt(2)*sin((45-$1)*3.1415926/180)+$2)}'` #first point
-	Z1=`echo "$loop" |awk '{printf("%g",16.666667*sqrt(2)*cos((45-$1)*3.1415926/180))}'`
+	X1=`echo "$loop $loop2" |awk '{printf("%g",-50*sqrt(2)*sin((45-$1)*3.1415926/180)+$2)}'` #first point
+	Z1=`echo "$loop" |awk '{printf("%g",50*sqrt(2)*cos((45-$1)*3.1415926/180))}'`
 	ChangeSourcePos $X1 $Y1 $Z1
 
 #  ApplyRunEm  $loop2  $loop3 $loop 1 
 ###source2(N2)
-	X2=`echo "$loop $loop2" |awk '{printf("%g",16.666667*sin(1*$1*3.1415926/180)+$2)}'`
-	Z2=`echo "$loop" |awk '{printf("%g",16.666667*cos(1*$1*3.1415926/180))}'`
+	X2=`echo "$loop $loop2" |awk '{printf("%g",50*sin(1*$1*3.1415926/180)+$2)}'`
+	Z2=`echo "$loop" |awk '{printf("%g",50*cos(1*$1*3.1415926/180))}'`
 	ChangeSourcePos $X2 $Y1 $Z2
 
 #  ApplyRunEm  $loop2  $loop3 $loop 2 
 
 ##soruce3
-	X3=`echo "$loop $loop2" |awk '{printf("%g",16.666667*sqrt(2)*cos((45-$1)*3.1415926/180)+$2)}'` #first point
-	Z3=`echo "$loop" |awk '{printf("%g",16.666667*sqrt(2)*cos((45+$1)*3.1415926/180))}'`
+	X3=`echo "$loop $loop2" |awk '{printf("%g",50*sqrt(2)*cos((45-$1)*3.1415926/180)+$2)}'` #first point
+	Z3=`echo "$loop" |awk '{printf("%g",50*sqrt(2)*cos((45+$1)*3.1415926/180))}'`
 	ChangeSourcePos $X3 $Y1 $Z3
 #  ApplyRunEm  $loop2  $loop3 $loop 3
 
 ###source1(4)
-	X4=`echo "$loop $loop2" |awk '{printf("%g",-16.666667*cos($1*3.1415926/180)+$2)}'` #first point
-	Z4=`echo "$loop" |awk '{printf("%g",16.666667*sin($1*3.1415926/180))}'`
+	X4=`echo "$loop $loop2" |awk '{printf("%g",-50*cos($1*3.1415926/180)+$2)}'` #first point
+	Z4=`echo "$loop" |awk '{printf("%g",50*sin($1*3.1415926/180))}'`
 	ChangeSourcePos $X4 $Y1 $Z4
 #  ApplyRunEm  $loop2  $loop3 $loop 4 
 
@@ -209,14 +199,14 @@ ApplyRunEm  $loop3  $loop2  $loop 2
 #  ApplyRunEm  $loop2  $loop3 $loop 5 
 
 ###source1(6)
-	X6=`echo "$loop $loop2" |awk '{printf("%g",16.666667*cos($1*3.1415926/180)+$2)}'` #first point
-	Z6=`echo "$loop" |awk '{printf("%g",-16.666667*sin($1*3.1415926/180))}'`
+	X6=`echo "$loop $loop2" |awk '{printf("%g",50*cos($1*3.1415926/180)+$2)}'` #first point
+	Z6=`echo "$loop" |awk '{printf("%g",-50*sin($1*3.1415926/180))}'`
 	ChangeSourcePos $X6 $Y1 $Z6
 #  ApplyRunEm  $loop2  $loop3 $loop 6 
 
 ##soruce7
-	X7=`echo "$loop $loop2" |awk '{printf("%g",-16.666667*sqrt(2)*cos((45-$1)*3.1415926/180)+$2)}'` #first point
-	Z7=`echo "$loop" |awk '{printf("%g",-16.666667*sqrt(2)*cos((45+$1)*3.1415926/180))}'`
+	X7=`echo "$loop $loop2" |awk '{printf("%g",-50*sqrt(2)*cos((45-$1)*3.1415926/180)+$2)}'` #first point
+	Z7=`echo "$loop" |awk '{printf("%g",-50*sqrt(2)*cos((45+$1)*3.1415926/180))}'`
 	ChangeSourcePos $X7 $Y1 $Z7
 #  ApplyRunEm  $loop2  $loop3 $loop 7 
 
@@ -224,8 +214,8 @@ ApplyRunEm  $loop3  $loop2  $loop 2
 #     ApplyRunEm $loop2  $loop 7 # source point / angle degree/ measure point
 
 ###source8
-	X8=`echo "$loop $loop2" |awk '{printf("%g",-16.666667*sin(1*$1*3.1415926/180)+$2)}'`
-	Z8=`echo "$loop" |awk '{printf("%g",-16.666667*cos(1*$1*3.1415926/180))}'`
+	X8=`echo "$loop $loop2" |awk '{printf("%g",-50*sin(1*$1*3.1415926/180)+$2)}'`
+	Z8=`echo "$loop" |awk '{printf("%g",-50*cos(1*$1*3.1415926/180))}'`
 	ChangeSourcePos $X8 $Y1 $Z8
 #  ApplyRunEm  $loop2  $loop3 $loop 8 
 
@@ -233,8 +223,8 @@ ApplyRunEm  $loop3  $loop2  $loop 2
 #    ApplyRunEm $loop2  $loop 8 # source point / angle degree/ measure point
 
 ###source9
-	X9=`echo "$loop $loop2" |awk '{printf("%g",16.666667*sqrt(2)*sin((45-$1)*3.1415926/180)+$2)}'` #first point
-	Z9=`echo "$loop" |awk '{printf("%g",-16.666667*sqrt(2)*cos((45-$1)*3.1415926/180))}'`
+	X9=`echo "$loop $loop2" |awk '{printf("%g",50*sqrt(2)*sin((45-$1)*3.1415926/180)+$2)}'` #first point
+	Z9=`echo "$loop" |awk '{printf("%g",-50*sqrt(2)*cos((45-$1)*3.1415926/180))}'`
 	ChangeSourcePos $X9 $Y1 $Z9
 #  ApplyRunEm  $loop2  $loop3 $loop 9 
 

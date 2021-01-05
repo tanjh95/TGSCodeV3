@@ -39,9 +39,9 @@ EkPrimary 1    0.662 # 1.47    # for thermal neutron
 EkWeight  1    1.  
 
 ##primary particle position(mm),z position is given by program
-xInitPrimary 40.2369 #changed by sh
-yInitPrimary 0 #changed by sh
-zInitPrimary 6.31562e-07 #changed by sh
+xInitPrimary -4.88155 #changed by sh
+yInitPrimary -33.3333 #changed by sh
+zInitPrimary -11.7851 #changed by sh
 
 ##primary particle position smearing range(mm)   range是全长/6边形边长
 xRangePrimary 0 #changed by sh
@@ -49,12 +49,12 @@ yRangePrimary 0
 zRangePrimary 0
 
 ##primary direction rotation respect to X/Y/Z axis(unit:degree)
-DirectRotX 0.000000 #changed by sh
-DirectRotY -8.430000 #changed by sh
+DirectRotX -6.709974 #changed by sh
+DirectRotY 0.987219 #changed by sh
 DirectRotZ  0  #changed by sh
 
 ##primary direction range(unit:degree)
-RangeThetaPri 6.412449 #changed by sh
+RangeThetaPri 0.552556 #changed by sh
 ##===========SD output===========
 ##following cuts performed in SD 
 EDepByParticleSD 0  ##energy dep for scint

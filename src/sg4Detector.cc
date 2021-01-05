@@ -55,8 +55,8 @@ sg4Detector::sg4Detector(G4String fn)
   //KitOpt=new sg4KitMatOptical(OpticalInputFile); tan 5.30 decrease
   G4cout<<"creating detector construction..."<<G4endl;
 	par.Energycut=0;
-	par.dBarrel=50*mm;  
-par.xBarrel=16.666667*mm;//changed by sh
+	par.dBarrel=300*mm;  
+par.xBarrel=-16.666667*mm;//changed by sh
 	par.dDet=13*mm;
 	par.xDet=300*mm;
 	par.dVoxel=50/3*mm;
@@ -66,7 +66,8 @@ par.Degree=135;//changed by sh
 	par.abun=0.96;
 	par.Bcon=0.1;
 	par.Gdcon=0.03;
-par.yBarrel=16.666667*mm;//changed by sh
+par.yBarrel=-16.666667*mm;//changed by sh
+par.NbVox=1;
 
 }
 
@@ -170,10 +171,10 @@ void sg4Detector::DefineVolume()
  G4Box* solidVoxel=new G4Box("voxel",dVoxel/2,dVoxel/2,dVoxel/2);
  G4LogicalVolume* logicVoxel[par.NbVoxel];
  G4VPhysicalVolume* physiVoxel[par.NbVoxel];
- char str[20],str1[20];  
+ char str[20],str1[30];  
  double posMat1[par.NbVoxel],posMat2[par.NbVoxel],posMat3[par.NbVoxel];
-double x=0,y=0,z=0;
-
+double x=0,y=0,z=0,x2=0,y2=0,z2=0;
+double posMat4[par.NbVoxel],posMat5[par.NbVoxel],posMat6[par.NbVoxel];
  for(int k=0;k<par.NbVoxel;k++){
 	//posMat1
 	if(k%3==0){posMat1[k]=-dVoxel;}
@@ -192,12 +193,12 @@ double x=0,y=0,z=0;
 	{
 	       	 sprintf (str,"V%d",j); 
 		 sprintf(str1,"logicVoxel%d",j);
-//设置体素材料	 
-		if(j==14){
+//设置小体素材料	Concrete
+		if(j==1||j==14){
               logicVoxel[j]=new G4LogicalVolume(solidVoxel,Concrete,str1);
 			}
 		else{
-		    logicVoxel[j]=new G4LogicalVolume(solidVoxel,G4_WATER,str1);
+		    logicVoxel[j]=new G4LogicalVolume(solidVoxel,G4_WATER,str1);//G4_WATER水  Concrete水泥 vacuum真空 G4_SiO2二氧化硅
 			}
 //
 		x=posMat1[j-1],z=posMat2[j-1],y=posMat3[j-1];
@@ -211,10 +212,59 @@ double x=0,y=0,z=0;
   					 checkOverlaps);        //???
 		  G4VisAttributes*CuBoxVisAtt1= new G4VisAttributes(G4Colour(1.0,1.0,0.0));//yellow
     //  G4VisAttributes*CuBoxVisAtt1= new G4VisAttributes(G4Colour(0.0,0.0,0.0));//black
-
       logicVoxel[j]->SetVisAttributes(CuBoxVisAtt1);
-
 	}	
+ //其他大体素
+ G4Box* solidLargeVoxel=new G4Box("voxel",3*dVoxel/2,3*dVoxel/2,3*dVoxel/2);//大体素尺寸是小体素的3倍
+ G4LogicalVolume* logicLargeVoxel[par.NbVoxel];
+ G4VPhysicalVolume* physiLargeVoxel[par.NbVoxel];//程序内编号与实际编号差1
+ for(int i=0;i<par.NbVoxel;i++){
+	if(i!=par.NbVox-1){
+	if(i%3==0){posMat4[i]=-1*((par.NbVox-1)%3)*(3*dVoxel);}
+	if(i%3==1){posMat4[i]=(1-(par.NbVox-1)%3)*(3*dVoxel);}
+	if(i%3==2){posMat4[i]=(2-(par.NbVox-1)%3)*(3*dVoxel);}
+	if(floor((i%9)/3)==0){posMat5[i]=(floor(((par.NbVox-1)%9)/3))*(3*dVoxel);}
+	if(floor((i%9)/3)==1){posMat5[i]=((floor(((par.NbVox-1)%9)/3))-1)*(3*dVoxel);}
+	if(floor((i%9)/3)==2){posMat5[i]=((floor(((par.NbVox-1)%9)/3))-2)*(3*dVoxel);}
+	 if(floor(i/9)==0){posMat6[i]=(0-floor((par.NbVox-1)/9))*3*dVoxel;}
+	 if(floor(i/9)==1){posMat6[i]=(1-floor((par.NbVox-1)/9))*3*dVoxel;}
+    	 if(floor(i/9)==2){posMat6[i]=(2-floor((par.NbVox-1)/9))*3*dVoxel;}
+	 }
+	 if(i==par.NbVox-1){
+	 posMat4[i]=0;posMat5[i]=0;
+	 if(floor(i/9)==0){posMat6[i]=(0-floor((par.NbVox-1)/9))*3*dVoxel;}
+	 if(floor(i/9)==1){posMat6[i]=(1-floor((par.NbVox-1)/9))*3*dVoxel;}
+    	 if(floor(i/9)==2){posMat6[i]=(2-floor((par.NbVox-1)/9))*3*dVoxel;}
+	 }
+ 
+ }
+ for(int n=1;n<=par.NbVoxel;n++){
+	 sprintf (str,"VV%d",n); 
+	 sprintf(str1,"logicLargeVoxel%d",n);
+	 x2=posMat4[n-1];y2=posMat6[n-1];z2=posMat5[n-1];
+    if(n==par.NbVox){
+	continue;//do nothing
+    }
+    else{
+    if(n==1||n==5){
+	 logicLargeVoxel[n]=new G4LogicalVolume(solidLargeVoxel,Concrete,str1);//materials G4_WATER水  Concrete水泥 vacuum真空 G4_SiO2二氧化硅
+			}
+    else{
+	 logicLargeVoxel[n]=new G4LogicalVolume(solidLargeVoxel,G4_WATER,str1);//materials
+			}
+
+	 physiLargeVoxel[n]=new G4PVPlacement(0,                     //rotation
+  					 G4ThreeVector(x2,y2,z2),  //注意单位 x y算出来是mm
+  					 logicLargeVoxel[n],          //its logical volume
+  					 str,                 //its name
+  					 logicBarrel,            //its mother volume
+  					 false,                 //no boolean
+  					 0,                     // copy number
+  					 checkOverlaps);        //???
+    }
+ }
+
+
  //探测器
   G4Tubs* solidDet=new G4Tubs("HPGE",0.0,dDet/2,LDet/2,0,2*PI);//设置晶体参数 半径  半厚度
  logicDet=new G4LogicalVolume(solidDet,G4_Ge,"logicDet");
